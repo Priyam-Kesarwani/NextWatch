@@ -23,7 +23,7 @@ const Header = ({handleLogout}) => {
                         height="30"
                         className="d-inline-block align-top me-2"
                     />
-                    Magic Stream
+                    NextWatch
                 </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="main-navbar-nav" />
