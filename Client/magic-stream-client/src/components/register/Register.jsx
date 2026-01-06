@@ -86,7 +86,7 @@ const Register = () => {
                 <div className="text-center mb-4">
                      <img src={logo} alt="Logo" width={60} className="mb-2" />
                     <h2 className="fw-bold">Register</h2>
-                    <p className="text-muted">Create your Magic Movie Stream account.</p>
+                    <p className="text-muted">Create your NextWatch account.</p>
                     {error && <div className="alert alert-danger py-2">{error}</div>}                
                 </div>
              <Form onSubmit={handleSubmit}>

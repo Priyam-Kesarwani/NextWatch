@@ -5,7 +5,7 @@ Usage:
 #>
 param(
     [string]$MongoUri = "mongodb://localhost:27017",
-    [string]$DatabaseName = "magicstream"
+    [string]$DatabaseName = "nextwatch"
 )
 
 $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition

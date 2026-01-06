@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -22,7 +21,7 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/hello", func(c *gin.Context) {
-		c.String(200, "Hello, MagicStreamMovies!")
+		c.String(200, "Hello, NextWatch!")
 	})
 
 	err := godotenv.Load(".env")

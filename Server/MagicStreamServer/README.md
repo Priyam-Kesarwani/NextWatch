@@ -1,4 +1,4 @@
-# MagicStream Server — environment & seeding
+# NextWatch Server — environment & seeding
 
 This document explains server environment variables and provides simple scripts to seed the MongoDB database for local development.
 
@@ -7,7 +7,7 @@ This document explains server environment variables and provides simple scripts 
 Create a `.env` file in `Server/MagicStreamServer/` (copy from `.env.example`) and set the values below:
 
 - `MONGODB_URI` — MongoDB connection string (e.g., `mongodb://localhost:27017`)
-- `DATABASE_NAME` — Database name (default in examples: `magicstream`)
+- `DATABASE_NAME` — Database name (default in examples: `nextwatch`)
 - `SECRET_KEY`, `SECRET_REFRESH_KEY` — JWT secrets
 - `ALLOWED_ORIGINS` — Comma-separated list of allowed origins for CORS (e.g., `http://localhost:5173`)
 - `OPENAI_API_KEY` — (Optional) OpenAI key used by the recommendation feature

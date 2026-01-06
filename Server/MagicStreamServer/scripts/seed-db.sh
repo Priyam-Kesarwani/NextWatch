@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Usage: bash scripts/seed-db.sh mongodb://localhost:27017 magicstream
 MONGO_URI=${1:-mongodb://localhost:27017}
-DB_NAME=${2:-magicstream}
+DB_NAME=${2:-nextwatch}
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DATA_DIR="$ROOT_DIR/magic-stream-seed-data"

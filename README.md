@@ -1,4 +1,4 @@
-# MagicStream 🎬✨
+# NextWatch 🎬✨
 
 Movie streaming platform with AI recommendation built with modern web technologies (React/Go/gin-gonic/MongoDB) 
 
@@ -21,6 +21,8 @@ It also demonstrates how **MongoDB** can serve as a reliable, scalable database 
 - AI Recommendation service using LangChainGo, Go and OpenAI
 - Scalable backend storage provided by MongoDB
 
+**Project name change:** This repository has been renamed to **NextWatch** (previously MagicStream).
+
 ---
 
 ## Tech Stack
@@ -40,8 +42,8 @@ It also demonstrates how **MongoDB** can serve as a reliable, scalable database 
 
 1. Clone the repo  
    ```bash
-   git clone https://github.com/GavinLonDigital/MagicStream.git
-   cd MagicStream
+   git clone https://github.com/Priyam-Kesarwani/NextWatch.git
+   cd NextWatch
 ### Seeding the Database (optional)
 
 Seed data for genres, movies, users, and rankings is included in `magic-stream-seed-data/`. You can import them using MongoDB tools or the provided scripts:
