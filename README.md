@@ -1,6 +1,6 @@
 # NextWatch 🎬✨
 
-Movie streaming platform with AI recommendation built with modern web technologies (React/Go/gin-gonic/MongoDB) 
+AI based movie recommendation built with modern web technologies (React/Go/gin-gonic/MongoDB) 
 
 ---
 
@@ -16,7 +16,7 @@ It also demonstrates how **MongoDB** can serve as a reliable, scalable database 
 
 ## Features
 
-- Movie Streaming service simulated on the front end using React and React-Player
+- Movie  trailers streaming service simulated on the front end using React and React-Player
 - Web API service written using GO and runs on the gin-gonic web framework 
 - AI Recommendation service using LangChainGo, Go and OpenAI
 - Scalable backend storage provided by MongoDB
@@ -33,10 +33,6 @@ It also demonstrates how **MongoDB** can serve as a reliable, scalable database 
  
 ---
 
-## Link to Video Tutorial on How to Build the App
-- https://youtu.be/jBf7of9JTV8
-
----
 
 ### Installation
 
