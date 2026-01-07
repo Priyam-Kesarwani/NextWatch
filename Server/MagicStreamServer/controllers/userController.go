@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 	"os"
+	"time"
 
 	"github.com/GavinLonDigital/MagicStream/Server/MagicStreamServer/database"
 	"github.com/GavinLonDigital/MagicStream/Server/MagicStreamServer/models"
@@ -124,37 +124,42 @@ func LoginUser(client *mongo.Client) gin.HandlerFunc {
 		}
 		cookieSecure := os.Getenv("COOKIE_SECURE") == "true"
 		cookieDomain := os.Getenv("COOKIE_DOMAIN")
-		if cookieDomain == "" {
-			cookieDomain = "localhost"
-		}
+		// If COOKIE_DOMAIN is empty, leave Domain field unset (empty string)
+		// This allows cookies to work across different domains/subdomains
+		// Only set Domain if explicitly provided (for specific domain requirements)
 		cookieSameSite := http.SameSiteNoneMode
 		if !cookieSecure {
 			// Browsers require SameSite=None to be Secure; use Lax for local HTTP dev.
 			cookieSameSite = http.SameSiteLaxMode
 		}
 
-		http.SetCookie(c.Writer, &http.Cookie{
-			Name:  "access_token",
-			Value: token,
-			Path:  "/",
-			Domain: cookieDomain,
-			// Domain:   "localhost",
+		accessCookie := &http.Cookie{
+			Name:     "access_token",
+			Value:    token,
+			Path:     "/",
 			MaxAge:   86400,
 			Secure:   cookieSecure,
 			HttpOnly: true,
 			SameSite: cookieSameSite,
-		})
-		http.SetCookie(c.Writer, &http.Cookie{
-			Name:  "refresh_token",
-			Value: refreshToken,
-			Path:  "/",
-			Domain: cookieDomain,
-			// Domain:   "localhost",
+		}
+		if cookieDomain != "" {
+			accessCookie.Domain = cookieDomain
+		}
+		http.SetCookie(c.Writer, accessCookie)
+
+		refreshCookie := &http.Cookie{
+			Name:     "refresh_token",
+			Value:    refreshToken,
+			Path:     "/",
 			MaxAge:   604800,
 			Secure:   cookieSecure,
 			HttpOnly: true,
 			SameSite: cookieSameSite,
-		})
+		}
+		if cookieDomain != "" {
+			refreshCookie.Domain = cookieDomain
+		}
+		http.SetCookie(c.Writer, refreshCookie)
 
 		c.JSON(http.StatusOK, models.UserResponse{
 			UserId:    foundUser.UserID,
@@ -204,46 +209,38 @@ func LogoutHandler(client *mongo.Client) gin.HandlerFunc {
 		// )
 		cookieSecure := os.Getenv("COOKIE_SECURE") == "true"
 		cookieDomain := os.Getenv("COOKIE_DOMAIN")
-		if cookieDomain == "" {
-			cookieDomain = "localhost"
-		}
 		cookieSameSite := http.SameSiteNoneMode
 		if !cookieSecure {
 			cookieSameSite = http.SameSiteLaxMode
 		}
 
-		http.SetCookie(c.Writer, &http.Cookie{
-			Name:  "access_token",
-			Value: "",
-			Path:  "/",
-			Domain: cookieDomain,
-			// Domain:   "localhost",
+		accessCookie := &http.Cookie{
+			Name:     "access_token",
+			Value:    "",
+			Path:     "/",
 			MaxAge:   -1,
 			Secure:   cookieSecure,
 			HttpOnly: true,
 			SameSite: cookieSameSite,
-		})
+		}
+		if cookieDomain != "" {
+			accessCookie.Domain = cookieDomain
+		}
+		http.SetCookie(c.Writer, accessCookie)
 
-		// // Clear the refresh_token cookie
-		// c.SetCookie(
-		// 	"refresh_token",
-		// 	"",
-		// 	-1,
-		// 	"/",
-		// 	"localhost",
-		// 	true,
-		// 	true,
-		// )
-		http.SetCookie(c.Writer, &http.Cookie{
+		refreshCookie := &http.Cookie{
 			Name:     "refresh_token",
 			Value:    "",
 			Path:     "/",
-			Domain: cookieDomain,
 			MaxAge:   -1,
 			Secure:   cookieSecure,
 			HttpOnly: true,
 			SameSite: cookieSameSite,
-		})
+		}
+		if cookieDomain != "" {
+			refreshCookie.Domain = cookieDomain
+		}
+		http.SetCookie(c.Writer, refreshCookie)
 
 		c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
 	}
@@ -288,33 +285,38 @@ func RefreshTokenHandler(client *mongo.Client) gin.HandlerFunc {
 
 		cookieSecure := os.Getenv("COOKIE_SECURE") == "true"
 		cookieDomain := os.Getenv("COOKIE_DOMAIN")
-		if cookieDomain == "" {
-			cookieDomain = "localhost"
-		}
 		cookieSameSite := http.SameSiteNoneMode
 		if !cookieSecure {
 			cookieSameSite = http.SameSiteLaxMode
 		}
-		http.SetCookie(c.Writer, &http.Cookie{
-			Name:  "access_token",
-			Value: newToken,
-			Path:  "/",
-			Domain: cookieDomain,
-			MaxAge: 86400,
-			Secure: cookieSecure,
+
+		accessCookie := &http.Cookie{
+			Name:     "access_token",
+			Value:    newToken,
+			Path:     "/",
+			MaxAge:   86400,
+			Secure:   cookieSecure,
 			HttpOnly: true,
 			SameSite: cookieSameSite,
-		}) // expires in 24 hours
-		http.SetCookie(c.Writer, &http.Cookie{
-			Name:  "refresh_token",
-			Value: newRefreshToken,
-			Path:  "/",
-			Domain: cookieDomain,
-			MaxAge: 604800,
-			Secure: cookieSecure,
+		}
+		if cookieDomain != "" {
+			accessCookie.Domain = cookieDomain
+		}
+		http.SetCookie(c.Writer, accessCookie) // expires in 24 hours
+
+		refreshCookie := &http.Cookie{
+			Name:     "refresh_token",
+			Value:    newRefreshToken,
+			Path:     "/",
+			MaxAge:   604800,
+			Secure:   cookieSecure,
 			HttpOnly: true,
 			SameSite: cookieSameSite,
-		}) //expires in 1 week
+		}
+		if cookieDomain != "" {
+			refreshCookie.Domain = cookieDomain
+		}
+		http.SetCookie(c.Writer, refreshCookie) // expires in 1 week
 
 		c.JSON(http.StatusOK, gin.H{"message": "Tokens refreshed"})
 	}

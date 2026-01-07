@@ -271,16 +271,30 @@ func GetRankings(client *mongo.Client, c *gin.Context) ([]models.Ranking, error)
 
 func GetRecommendedMovies(client *mongo.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		log.Println("GetRecommendedMovies called")
 		userId, err := utils.GetUserIdFromContext(c)
 
 		if err != nil {
+			log.Println("GetRecommendedMovies: user id not found in context")
 			c.JSON(http.StatusBadRequest, gin.H{"error": "User Id not found in context"})
+			return
 		}
+
+		log.Println("GetRecommendedMovies: userId=", userId)
 
 		favourite_genres, err := GetUsersFavouriteGenres(userId, client, c)
 
 		if err != nil {
+			log.Println("GetRecommendedMovies: error getting favourite genres:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		log.Println("GetRecommendedMovies: favourite_genres=", favourite_genres)
+
+		if len(favourite_genres) == 0 {
+			log.Println("GetRecommendedMovies: no favourite genres for user, returning empty list")
+			c.JSON(http.StatusOK, []models.Movie{})
 			return
 		}
 		err = godotenv.Load(".env")
@@ -307,14 +321,18 @@ func GetRecommendedMovies(client *mongo.Client) gin.HandlerFunc {
 			}},
 		}
 
-		var ctx, cancel = context.WithTimeout(c, 100*time.Second)
+		// Shorter timeout for this query to avoid long hangs in dev
+		var ctx, cancel = context.WithTimeout(c, 15*time.Second)
 		defer cancel()
 
 		var movieCollection *mongo.Collection = database.OpenCollection("movies", client)
 
+		log.Println("GetRecommendedMovies: running query with filter=", filter, " limit=", recommendedMovieLimitVal)
+
 		cursor, err := movieCollection.Find(ctx, filter, findOptions)
 
 		if err != nil {
+			log.Println("GetRecommendedMovies: error on Find:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching recommended movies"})
 			return
 		}
@@ -323,16 +341,21 @@ func GetRecommendedMovies(client *mongo.Client) gin.HandlerFunc {
 		var recommendedMovies []models.Movie
 
 		if err := cursor.All(ctx, &recommendedMovies); err != nil {
+			log.Println("GetRecommendedMovies: error decoding cursor:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
+
+		log.Println("GetRecommendedMovies: returning", len(recommendedMovies), "movies")
 		c.JSON(http.StatusOK, recommendedMovies)
 	}
 }
 
 func GetUsersFavouriteGenres(userId string, client *mongo.Client, c *gin.Context) ([]string, error) {
 
-	var ctx, cancel = context.WithTimeout(c, 100*time.Second)
+	log.Println("GetUsersFavouriteGenres: userId=", userId)
+
+	var ctx, cancel = context.WithTimeout(c, 10*time.Second)
 	defer cancel()
 
 	filter := bson.D{{Key: "user_id", Value: userId}}
@@ -350,13 +373,17 @@ func GetUsersFavouriteGenres(userId string, client *mongo.Client, c *gin.Context
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
+			log.Println("GetUsersFavouriteGenres: no document for userId, returning empty slice")
 			return []string{}, nil
 		}
+		log.Println("GetUsersFavouriteGenres: FindOne error:", err)
+		return []string{}, err
 	}
 
 	favGenresArray, ok := result["favourite_genres"].(bson.A)
 
 	if !ok {
+		log.Println("GetUsersFavouriteGenres: favourite_genres missing or not array")
 		return []string{}, errors.New("unable to retrieve favourite genres for user")
 	}
 
@@ -374,6 +401,7 @@ func GetUsersFavouriteGenres(userId string, client *mongo.Client, c *gin.Context
 		}
 	}
 
+	log.Println("GetUsersFavouriteGenres: returning genres=", genreNames)
 	return genreNames, nil
 
 }

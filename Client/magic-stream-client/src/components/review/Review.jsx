@@ -15,22 +15,32 @@ const Review = () => {
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
+        let isMounted = true;
+        
         const fetchMovie = async () => {
             setLoading(true);
             try {
                 const response = await axiosPrivate.get(`/movie/${imdb_id}`);
-                setMovie(response.data);
-                console.log(response.data);
+                if (isMounted) {
+                    setMovie(response.data);
+                    console.log(response.data);
+                }
             } catch (error) {
                 console.error('Error fetching movie:', error);
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
 
         fetchMovie();
-
-    }, []);
+        
+        return () => {
+            isMounted = false;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [imdb_id]); // Only re-fetch when imdb_id changes, axiosPrivate is stable
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -49,8 +49,8 @@ func main() {
 	// Use the specific allowed origins instead.
 	config.AllowOrigins = origins
 	config.AllowMethods = []string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"}
-	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
-	config.ExposeHeaders = []string{"Content-Length"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Cookie"}
+	config.ExposeHeaders = []string{"Content-Length", "Set-Cookie"}
 	config.AllowCredentials = true
 	config.MaxAge = 12 * time.Hour
 
