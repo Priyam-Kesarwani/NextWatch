@@ -1,10 +1,7 @@
-import { useState, useEffect} from 'react';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useState, useEffect } from 'react';
 import axiosClient from '../../api/axiosConfig';
 import { useNavigate, Link } from 'react-router-dom';
-import logo from '../../assets/MagicStreamLogo.png';
+import logo from '../../assets/NextWatchLogo.png';
 
 const Register = () => {
     const [firstName, setFirstName] = useState('');
@@ -26,12 +23,11 @@ const Register = () => {
             genre_name: opt.label
         })));
     };
-   const handleSubmit = async (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         const defaultRole ="USER";
-
-        console.log(defaultRole);
 
         if (password !== confirmPassword) {
             setError('Passwords do not match.');
@@ -56,7 +52,7 @@ const Register = () => {
             }
             // Registration successful, redirect to login
             navigate('/login', { replace: true });
-        } catch (err) {
+        } catch {
             setError('Registration failed. Please try again.');
         } finally {
             setLoading(false);
@@ -79,106 +75,132 @@ const Register = () => {
 
 
     return (
+        <div className="min-h-screen flex items-center justify-center bg-darker px-4 py-8">
+            <div className="max-w-md w-full bg-card/50 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/10 relative overflow-hidden">
+                {/* Decorative background glow */}
+                <div className="absolute top-0 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
 
-
-       <Container className="login-container d-flex align-items-center justify-content-center min-vh-100">
-        <div className="login-card shadow p-4 rounded bg-white" style={{maxWidth: 400, width: '100%'}}>
-                <div className="text-center mb-4">
-                     <img src={logo} alt="Logo" width={60} className="mb-2" />
-                    <h2 className="fw-bold">Register</h2>
-                    <p className="text-muted">Create your NextWatch account.</p>
-                    {error && <div className="alert alert-danger py-2">{error}</div>}                
+                <div className="text-center mb-8 relative z-10">
+                    <img src={logo} alt="Logo" width={60} className="mb-4 mx-auto drop-shadow-lg" />
+                    <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        Create Account
+                    </h2>
+                    <p className="text-gray-400 mt-2">Join NextWatch today.</p>
                 </div>
-             <Form onSubmit={handleSubmit}>
-                     <Form.Group className="mb-3">
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter first name"
-                            value={firstName}
-                            onChange={e => setFirstName(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-                     <Form.Group className="mb-3">
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter last name"
-                            value={lastName}
-                            onChange={e => setLastName(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-                     <Form.Group className="mb-3">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
+
+                {error && (
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm text-center relative z-10">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">First Name</label>
+                            <input
+                                type="text"
+                                placeholder="First Name"
+                                value={firstName}
+                                onChange={e => setFirstName(e.target.value)}
+                                required
+                                className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">Last Name</label>
+                            <input
+                                type="text"
+                                placeholder="Last Name"
+                                value={lastName}
+                                onChange={e => setLastName(e.target.value)}
+                                required
+                                className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                        <input
                             type="email"
                             placeholder="Enter email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             required
+                            className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500"
                         />
-                    </Form.Group>
-                     <Form.Group className="mb-3">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                        <input
                             type="password"
                             placeholder="Password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             required
+                            className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500"
                         />
-                    </Form.Group>
-                     <Form.Group className="mb-3">
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
+                        <input
                             type="password"
                             placeholder="Confirm Password"
                             value={confirmPassword}
                             onChange={e => setConfirmPassword(e.target.value)}
                             required
-                            isInvalid ={!!confirmPassword && password !== confirmPassword}
-
+                            className={`w-full bg-dark/50 border ${password !== confirmPassword && confirmPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700 focus:border-primary focus:ring-primary'} text-white rounded-lg px-4 py-3 focus:ring-1 outline-none transition-all placeholder-gray-500`}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Passwords do not match.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Select
+                        {password !== confirmPassword && confirmPassword && (
+                            <p className="text-red-400 text-xs mt-1">Passwords do not match.</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Favorite Genres</label>
+                        <select
                             multiple
                             value={favouriteGenres.map(g => String(g.genre_id))}
                             onChange={handleGenreChange}
+                            className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all scrollbar-thin scrollbar-thumb-primary scrollbar-track-dark h-32"
                         >
                             {genres.map(genre => (
-                                <option key={genre.genre_id} value={genre.genre_id} label={genre.genre_name}>
+                                <option key={genre.genre_id} value={genre.genre_id} label={genre.genre_name} className="py-2 px-2 hover:bg-primary/20 cursor-pointer">
                                     {genre.genre_name}
                                 </option>
                             ))}
-                        </Form.Select>
-                        <Form.Text className="text-muted">
+                        </select>
+                        <p className="text-gray-500 text-xs mt-1">
                             Hold Ctrl (Windows) or Cmd (Mac) to select multiple genres.
-                        </Form.Text>
-                    </Form.Group>
-                     <Button
-                        variant="primary"
+                        </p>
+                    </div>
+
+                    <button
                         type="submit"
-                        className="w-100 mb-2"
                         disabled={loading}
-                        style={{fontWeight: 600, letterSpacing: 1}}
+                        className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 rounded-lg hover:opacity-90 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center mt-6"
                     >
                         {loading ? (
                             <>
-                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
                                 Registering...
                             </>
                         ) : 'Register'}
-                    </Button>                        
-            </Form>
-            </div>           
-       </Container>
+                    </button>
+                </form>
 
+                <div className="text-center mt-6 relative z-10">
+                    <span className="text-gray-400 text-sm">Already have an account? </span>
+                    <Link to="/login" className="text-primary hover:text-secondary font-semibold text-sm transition-colors">
+                        Login here
+                    </Link>
+                </div>
+            </div>           
+        </div>
     )
 }
 export default Register;

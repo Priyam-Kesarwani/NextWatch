@@ -1,21 +1,8 @@
-
 const Spinner = () => {
-
     return (
- 
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '60vh'
-          }}>
-            <span
-              className="spinner-border"
-              role="status"
-              aria-hidden="true"
-              style={{ width: '5rem', height: '5rem', fontSize: '2rem' }}
-            ></span>
-          </div>
+        <div className="flex justify-center items-center min-h-[60vh]">
+            <div className="w-16 h-16 border-4 border-gray-800 border-t-primary rounded-full animate-spin"></div>
+        </div>
     );
 }
 

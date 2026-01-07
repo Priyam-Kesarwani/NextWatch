@@ -1,15 +1,12 @@
-import {useState} from 'react';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useState } from 'react';
 import axiosClient from '../../api/axiosConfig';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import logo from '../../assets/MagicStreamLogo.png';
+import logo from '../../assets/NextWatchLogo.png';
 
 const Login = () => {
     
-    const {setAuth} = useAuth();
+    const { setAuth } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -48,59 +45,78 @@ const Login = () => {
         }
     }; 
     return (
-        <Container className="login-container d-flex align-items-center justify-content-center min-vh-100">
-            <div className="login-card shadow p-4 rounded bg-white" style={{maxWidth: 400, width: '100%'}}>
-                <div className="text-center mb-4">
-                    <img src={logo} alt="Logo" width={60} className="mb-2" />
-                    <h2 className="fw-bold">Sign In</h2>
-                    <p className="text-muted">Welcome back! Please login to your account.</p>
+        <div className="min-h-screen flex items-center justify-center bg-darker px-4">
+            <div className="max-w-md w-full bg-card/50 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/10 relative overflow-hidden">
+                {/* Decorative background glow */}
+                <div className="absolute top-0 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
+
+                <div className="text-center mb-8 relative z-10">
+                    <img src={logo} alt="Logo" width={60} className="mb-4 mx-auto drop-shadow-lg" />
+                    <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        Sign In
+                    </h2>
+                    <p className="text-gray-400 mt-2">Welcome back! Please login to your account.</p>
                 </div>
-                {error && <div className="alert alert-danger py-2">{error}</div>}
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail" className="mb-3">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
+
+                {error && (
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm text-center relative z-10">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                            Email address
+                        </label>
+                        <input
                             type="email"
                             placeholder="Enter email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             autoFocus
+                            className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500"
                         />
-                    </Form.Group>
+                    </div>
 
-                    <Form.Group controlId="formBasicPassword" className="mb-3">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                            Password
+                        </label>
+                        <input
                             type="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            className="w-full bg-dark/50 border border-gray-700 text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500"
                         />
-                    </Form.Group>
+                    </div>
 
-                    <Button
-                        variant="primary"
+                    <button
                         type="submit"
-                        className="w-100 mb-2"
                         disabled={loading}
-                        style={{fontWeight: 600, letterSpacing: 1}}
+                        className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 rounded-lg hover:opacity-90 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
                     >
                         {loading ? (
                             <>
-                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
                                 Logging in...
                             </>
                         ) : 'Login'}
-                    </Button>
-                </Form>
-                <div className="text-center mt-3">
-                    <span className="text-muted">Don't have an account? </span>
-                    <Link to="/register" className="fw-semibold">Register here</Link>
+                    </button>
+                </form>
+
+                <div className="text-center mt-6 relative z-10">
+                    <span className="text-gray-400 text-sm">Don't have an account? </span>
+                    <Link to="/register" className="text-primary hover:text-secondary font-semibold text-sm transition-colors">
+                        Register here
+                    </Link>
                 </div>
             </div>
-        </Container>
+        </div>
     )
 }
 export default Login;

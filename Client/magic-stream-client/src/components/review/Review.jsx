@@ -1,7 +1,5 @@
-import {Form, Button} from 'react-bootstrap';
-import { useRef,useEffect,useState } from 'react';
-import {useParams} from 'react-router-dom'
-//import axiosPrivate from '../../api/axiosPrivateConfig';
+import { useRef, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useAuth from '../../hooks/useAuth';
 import Movie from '../movie/Movie'
@@ -13,7 +11,7 @@ const Review = () => {
     const [loading, setLoading] = useState(false);
     const revText = useRef();
     const { imdb_id } = useParams();
-    const {auth,setAuth} = useAuth();
+    const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
@@ -36,12 +34,12 @@ const Review = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         setLoading(true);
         try {
-            
+
             const response = await axiosPrivate.patch(`/updatereview/${imdb_id}`, { admin_review: revText.current.value });
-            console.log(response.data);           
+            console.log(response.data);
 
             setMovie(() => ({
                 ...movie,
@@ -54,8 +52,8 @@ const Review = () => {
         } catch (err) {
             console.error(err);
             if (err.response && err.response.status === 401) {
-                 console.error('Unauthorized access - redirecting to login');
-                 localStorage.removeItem('user');
+                console.error('Unauthorized access - redirecting to login');
+                localStorage.removeItem('user');
                 // setAuth(null);
             } else {
                 console.error('Error updating review:', err);
@@ -64,52 +62,62 @@ const Review = () => {
         } finally {
             setLoading(false);
         }
-    }; 
+    };
 
     return (
-      <>
-        {loading ? (
-            <Spinner />
-        ) : (
-            <div className="container py-5">
-                <h2 className="text-center mb-4">Admin Review</h2>
-                <div className="row justify-content-center">
-                    <div className="col-12 col-md-6 d-flex align-items-center justify-content-center mb-4 mb-md-0">
-                        <div className="w-100 shadow rounded p-3 bg-white d-flex justify-content-center align-items-center">
-                            <Movie movie={movie} />
+        <>
+            {loading ? (
+                <Spinner />
+            ) : (
+                <div className="container mx-auto px-4 py-8">
+                    <h2 className="text-3xl font-bold text-center mb-8 text-white">Admin Review</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        {/* Movie Card Section */}
+                        <div className="flex justify-center">
+                            <div className="w-full max-w-sm transform transition-all hover:scale-[1.02]">
+                                <Movie movie={movie} />
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-12 col-md-6 d-flex align-items-stretch">
-                        <div className="w-100 shadow rounded p-4 bg-light">
+
+                        {/* Review Form Section */}
+                        <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/5 h-full flex flex-col">
                             {auth && auth.role === "ADMIN" ? (
-                                <Form onSubmit={handleSubmit}>
-                                    <Form.Group className="mb-3" controlId="adminReviewTextarea">
-                                        <Form.Label>Admin Review</Form.Label>
-                                        <Form.Control
+                                <form onSubmit={handleSubmit} className="flex flex-col h-full gap-4">
+                                    <div className="flex-1">
+                                        <label className="block text-lg font-medium text-primary mb-3">
+                                            Write Review
+                                        </label>
+                                        <textarea
                                             ref={revText}
                                             required
-                                            as="textarea"
-                                            rows={8}
+                                            rows={12}
                                             defaultValue={movie?.admin_review}
-                                            placeholder="Write your review here..."
-                                            style={{ resize: "vertical" }}
+                                            placeholder="Write your professional review here..."
+                                            className="w-full h-full min-h-[300px] bg-dark/50 border border-gray-700 text-white rounded-xl p-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-500 resize-none text-base leading-relaxed"
                                         />
-                                    </Form.Group>
-                                    <div className="d-flex justify-content-end">
-                                        <Button variant="info" type="submit">
-                                            Submit Review
-                                        </Button>
                                     </div>
-                                </Form> ):(
-                                <div className="alert alert-info">{movie.admin_review}</div>
-                            )}                           
+                                    <div className="flex justify-end pt-4">
+                                        <button 
+                                            type="submit"
+                                            className="px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-lg hover:shadow-lg hover:shadow-primary/25 transition-all transform hover:-translate-y-0.5"
+                                        >
+                                            Submit Review
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="flex flex-col h-full">
+                                    <h3 className="text-xl font-bold text-primary mb-4">Review</h3>
+                                    <div className="bg-dark/30 rounded-xl p-6 border border-white/5 flex-1 text-gray-300 leading-relaxed text-lg">
+                                        {movie.admin_review || "No review available yet."}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
-            </div>
-        )}
-    </>      
-
+            )}
+        </>
     );
 }
 

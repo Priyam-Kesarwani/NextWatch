@@ -44,9 +44,11 @@ func main() {
 	}
 
 	config := cors.Config{}
+	// IMPORTANT: When using credentials, you CANNOT use AllowAllOrigins (*)
+	// or the browser will block the response as a CORS error.
+	// Use the specific allowed origins instead.
 	config.AllowOrigins = origins
 	config.AllowMethods = []string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"}
-	//config.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 	config.ExposeHeaders = []string{"Content-Length"}
 	config.AllowCredentials = true

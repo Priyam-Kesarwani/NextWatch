@@ -29,6 +29,8 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pkoukk/tiktoken-go v0.1.6 // indirect
+	github.com/rs/cors v1.11.0 // indirect
+	github.com/rs/cors/wrapper/gin v0.0.0-20251223091524-36f5194fb450 // indirect
 	github.com/tmc/langchaingo v0.1.13 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.14 // indirect
