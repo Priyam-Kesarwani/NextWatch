@@ -27,19 +27,29 @@ const Login = () => {
             console.log(response.data);
             if (response.data.error) {
                 setError(response.data.error);
+                setLoading(false);
                 return;
             }
-           // console.log(response.data);
+            
+            // Set auth state
             setAuth(response.data);
             
-           // localStorage.setItem('user', JSON.stringify(response.data));
+            // Small delay to ensure cookies are set before navigation
+            // This is especially important for cross-origin deployments
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
             // Handle successful login (e.g., store token, redirect)
-           navigate(from, {replace: true});
-           //navigate('/');
+            navigate(from, {replace: true});
 
         } catch (err) {
             console.error(err);
-            setError('Invalid email or password');
+            if (err.response?.data?.error) {
+                setError(err.response.data.error);
+            } else if (err.response?.status === 401) {
+                setError('Invalid email or password');
+            } else {
+                setError('Login failed. Please try again.');
+            }
         } finally {
             setLoading(false);
         }

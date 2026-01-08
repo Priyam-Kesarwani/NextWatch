@@ -20,10 +20,32 @@ const Review = () => {
         const fetchMovie = async () => {
             setLoading(true);
             try {
-                const response = await axiosPrivate.get(`/movie/${imdb_id}`);
+                // Fetch movie and watchlist in parallel
+                const [movieResponse, watchlistResponse] = await Promise.all([
+                    axiosPrivate.get(`/movie/${imdb_id}`),
+                    // Fetch user's watchlist to mark movies
+                    axiosPrivate.get('/watchlist').catch(() => ({ data: [] }))
+                ]);
+                
                 if (isMounted) {
-                    setMovie(response.data);
-                    console.log(response.data);
+                    const movieData = movieResponse.data;
+                    
+                    // Get watchlist movie IDs for quick lookup
+                    const watchlistIds = new Set(
+                        Array.isArray(watchlistResponse.data) 
+                            ? watchlistResponse.data.map(movie => movie.imdb_id)
+                            : []
+                    );
+                    
+                    // Mark movie if it's in the watchlist
+                    const movieWithWatchlistFlag = {
+                        ...movieData,
+                        is_in_watchlist: watchlistIds.has(movieData.imdb_id),
+                        watchlisted: watchlistIds.has(movieData.imdb_id)
+                    };
+                    
+                    setMovie(movieWithWatchlistFlag);
+                    console.log(movieWithWatchlistFlag);
                 }
             } catch (error) {
                 console.error('Error fetching movie:', error);

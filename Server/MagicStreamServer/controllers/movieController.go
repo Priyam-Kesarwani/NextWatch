@@ -36,7 +36,93 @@ func GetMovies(client *mongo.Client) gin.HandlerFunc {
 			return
 		}
 
-		cursor, err := movieCollection.Find(ctx, bson.D{})
+		// Parse query parameters
+		searchQuery := c.Query("search")
+		genresParam := c.Query("genres")
+		sortParam := c.Query("sort")
+		pageParam := c.Query("page")
+		limitParam := c.Query("limit")
+
+		// Parse pagination
+		page := 1
+		limit := 20
+		if pageParam != "" {
+			if p, err := strconv.Atoi(pageParam); err == nil && p > 0 {
+				page = p
+			}
+		}
+		if limitParam != "" {
+			if l, err := strconv.Atoi(limitParam); err == nil && l > 0 {
+				limit = l
+			}
+		}
+
+		// Build filter
+		filter := bson.D{}
+
+		// Add search filter (case-insensitive title search)
+		if searchQuery != "" {
+			filter = append(filter, bson.E{
+				Key: "title",
+				Value: bson.D{
+					{Key: "$regex", Value: searchQuery},
+					{Key: "$options", Value: "i"},
+				},
+			})
+		}
+
+		// Add genre filter
+		if genresParam != "" {
+			genreIDs := []int{}
+			genreStrings := strings.Split(genresParam, ",")
+			for _, gs := range genreStrings {
+				gs = strings.TrimSpace(gs)
+				if gs != "" {
+					if genreID, err := strconv.Atoi(gs); err == nil {
+						genreIDs = append(genreIDs, genreID)
+					}
+				}
+			}
+			if len(genreIDs) > 0 {
+				filter = append(filter, bson.E{
+					Key: "genre.genre_id",
+					Value: bson.D{
+						{Key: "$in", Value: genreIDs},
+					},
+				})
+			}
+		}
+
+		// Build sort options
+		findOptions := options.Find()
+		
+		// Default sort
+		sortField := bson.D{{Key: "title", Value: 1}}
+		
+		if sortParam != "" {
+			switch sortParam {
+			case "title-asc":
+				sortField = bson.D{{Key: "title", Value: 1}}
+			case "title-desc":
+				sortField = bson.D{{Key: "title", Value: -1}}
+			case "rating-asc":
+				// High to Low (Best to Worst) - ranking_value 1 (Excellent) first, so ascending order
+				sortField = bson.D{{Key: "ranking.ranking_value", Value: 1}}
+			case "rating-desc":
+				// Low to High (Worst to Best) - higher ranking_value first, so descending order
+				sortField = bson.D{{Key: "ranking.ranking_value", Value: -1}}
+			}
+		}
+		
+		findOptions.SetSort(sortField)
+
+		// Apply pagination
+		skip := (page - 1) * limit
+		findOptions.SetSkip(int64(skip))
+		findOptions.SetLimit(int64(limit))
+
+		// Execute query
+		cursor, err := movieCollection.Find(ctx, filter, findOptions)
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch movies."})

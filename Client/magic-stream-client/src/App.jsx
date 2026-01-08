@@ -11,6 +11,7 @@ import RequiredAuth from './components/RequiredAuth';
 import axiosClient from './api/axiosConfig';
 import useAuth from './hooks/useAuth';
 import StreamMovie from './components/stream/StreamMovie';
+import Watchlist from './components/watchlist/Watchlist';
 
 import {Route, Routes, useNavigate} from 'react-router-dom'
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="/login" element={<Login/>}></Route>
         <Route element = {<RequiredAuth/>}>
             <Route path="/recommended" element={<Recommended/>}></Route>
+            <Route path="/watchlist" element={<Watchlist/>}></Route>
             <Route path="/review/:imdb_id" element={<Review/>}></Route>
             <Route path="/stream/:yt_id" element={<StreamMovie/>}></Route>
         </Route>

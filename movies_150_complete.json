@@ -1,0 +1,830 @@
+[
+    {
+        "imdb_id": "tt0137523",
+        "title": "Fight Club",
+        "poster_path": "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0109830",
+        "title": "Forrest Gump",
+        "poster_path": "https://image.tmdb.org/t/p/w500/saHP97rTPS5eLmrLQEcANmKrsFl.jpg",
+        "genre": [
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0133093",
+        "title": "The Matrix",
+        "poster_path": "https://image.tmdb.org/t/p/w500/p96dm7sCMn4VYAStA6siNz30G1r.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 6,
+                "genre_name": "Sci-Fi"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0114369",
+        "title": "Se7en",
+        "poster_path": "https://image.tmdb.org/t/p/w500/191nKfP0ehp3uIvWqgPbFmI4lv9.jpg",
+        "genre": [
+            {
+                "genre_id": 9,
+                "genre_name": "Crime"
+            },
+            {
+                "genre_id": 8,
+                "genre_name": "Mystery"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0081505",
+        "title": "The Shining",
+        "poster_path": "https://image.tmdb.org/t/p/w500/uAR0AWqhQL1hQa69UDEbb2rE5Wx.jpg",
+        "genre": [
+            {
+                "genre_id": 10,
+                "genre_name": "Horror"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0118799",
+        "title": "Life Is Beautiful",
+        "poster_path": "https://image.tmdb.org/t/p/w500/mfnkSeeVOBVheuyn2lo4tfmOPQb.jpg",
+        "genre": [
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0253474",
+        "title": "The Pianist",
+        "poster_path": "https://image.tmdb.org/t/p/w500/2hFvxCCWrTmCYwfy7yum0GKRi3Y.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 18,
+                "genre_name": "War"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0816692",
+        "title": "Interstellar",
+        "poster_path": "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+        "genre": [
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 6,
+                "genre_name": "Sci-Fi"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0034583",
+        "title": "Casablanca",
+        "poster_path": "https://image.tmdb.org/t/p/w500/lGCEKlJo2CnWydQj7aamY7s1S7Q.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0103064",
+        "title": "Terminator 2: Judgment Day",
+        "poster_path": "https://image.tmdb.org/t/p/w500/jFTVD4XoWQTcg7wdyJKa8PEds5q.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            },
+            {
+                "genre_id": 6,
+                "genre_name": "Sci-Fi"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0054215",
+        "title": "Psycho",
+        "poster_path": "https://image.tmdb.org/t/p/w500/yz4QVqPx3h1hD1DfqqQkCq3rmxW.jpg",
+        "genre": [
+            {
+                "genre_id": 10,
+                "genre_name": "Horror"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            },
+            {
+                "genre_id": 8,
+                "genre_name": "Mystery"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0172495",
+        "title": "Gladiator",
+        "poster_path": "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0407887",
+        "title": "The Departed",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nT97ifVT2J1yMQmeq20Qblg61T.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            },
+            {
+                "genre_id": 9,
+                "genre_name": "Crime"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0032976",
+        "title": "Rebecca",
+        "poster_path": "https://image.tmdb.org/t/p/w500/1qz3qUOHnVy7dL7M7G8jSErxE4b.jpg",
+        "genre": [
+            {
+                "genre_id": 8,
+                "genre_name": "Mystery"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0021814",
+        "title": "Dracula",
+        "poster_path": "https://image.tmdb.org/t/p/w500/ueVSPt7vAba0XScHWTDWS5tNxYX.jpg",
+        "genre": [
+            {
+                "genre_id": 10,
+                "genre_name": "Horror"
+            },
+            {
+                "genre_id": 4,
+                "genre_name": "Fantasy"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0056592",
+        "title": "To Kill a Mockingbird",
+        "poster_path": "https://image.tmdb.org/t/p/w500/gZycFUMLx2110dzK3nBNai7gfpM.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0332280",
+        "title": "The Notebook",
+        "poster_path": "https://image.tmdb.org/t/p/w500/rNzQyW4f8B8cQeg7Dgj3n6eT5k9.jpg",
+        "genre": [
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0162222",
+        "title": "Cast Away",
+        "poster_path": "https://image.tmdb.org/t/p/w500/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg",
+        "genre": [
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt1691916",
+        "title": "Before I Fall",
+        "poster_path": "https://image.tmdb.org/t/p/w500/eowzonDJMCuNXoJGVkP9Z7oCmiM.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 4,
+                "genre_name": "Fantasy"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0451279",
+        "title": "Wonder Woman",
+        "poster_path": "https://image.tmdb.org/t/p/w500/v4ncgZjG2Zu8ZW5al1vIZTsSjqX.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            },
+            {
+                "genre_id": 4,
+                "genre_name": "Fantasy"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt1259521",
+        "title": "The Cabin in the Woods",
+        "poster_path": "https://image.tmdb.org/t/p/w500/zZZe5wn0udlhMtdlDjN4NB72R6e.jpg",
+        "genre": [
+            {
+                "genre_id": 10,
+                "genre_name": "Horror"
+            },
+            {
+                "genre_id": 8,
+                "genre_name": "Mystery"
+            },
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 3,
+            "ranking_name": "Okay"
+        }
+    },
+    {
+        "imdb_id": "tt1345836",
+        "title": "The Dark Knight Rises",
+        "poster_path": "https://image.tmdb.org/t/p/w500/hr0L2aueqlP2BYUblTTjmtn0hw4.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 9,
+                "genre_name": "Crime"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0167260",
+        "title": "The Lord of the Rings: The Return of the King",
+        "poster_path": "https://image.tmdb.org/t/p/w500/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg",
+        "genre": [
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            },
+            {
+                "genre_id": 4,
+                "genre_name": "Fantasy"
+            },
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0848228",
+        "title": "The Avengers",
+        "poster_path": "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
+        "genre": [
+            {
+                "genre_id": 6,
+                "genre_name": "Sci-Fi"
+            },
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0316654",
+        "title": "Spider-Man 2",
+        "poster_path": "https://image.tmdb.org/t/p/w500/eg8XHjA7jkM3ulBLnfGTczR9ytI.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 13,
+                "genre_name": "Adventure"
+            },
+            {
+                "genre_id": 6,
+                "genre_name": "Sci-Fi"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt1631867",
+        "title": "Edge of Tomorrow",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nBM9MMa2WCwvMG4IJ3eiGUdbPe6.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 6,
+                "genre_name": "Sci-Fi"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt3783958",
+        "title": "La La Land",
+        "poster_path": "https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg",
+        "genre": [
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt2911666",
+        "title": "John Wick",
+        "poster_path": "https://image.tmdb.org/t/p/w500/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg",
+        "genre": [
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0055630",
+        "title": "Yojimbo",
+        "poster_path": "https://image.tmdb.org/t/p/w500/tN7kYPjRhDolpui9sc9Eq9n5b2O.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0031381",
+        "title": "Gone with the Wind",
+        "poster_path": "https://image.tmdb.org/t/p/w500/lNz2Ow0wGCAvzckW7EOjE03KcYv.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 18,
+                "genre_name": "War"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0053604",
+        "title": "The Apartment",
+        "poster_path": "https://image.tmdb.org/t/p/w500/hhSRt1KKfRT0yEhEtRW3qp31JFU.jpg",
+        "genre": [
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0067672",
+        "title": "Return of Sabata",
+        "poster_path": "https://image.tmdb.org/t/p/w500/zNV3Vot13POUWFgIR1d3oodYPOq.jpg",
+        "genre": [
+            {
+                "genre_id": 3,
+                "genre_name": "Western"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 4,
+            "ranking_name": "Bad"
+        }
+    },
+    {
+        "imdb_id": "tt0073486",
+        "title": "One Flew Over the Cuckoo's Nest",
+        "poster_path": "https://image.tmdb.org/t/p/w500/kjWsMh72V6d8KRLV4EOoSJLT1H7.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 1,
+            "ranking_name": "Excellent"
+        }
+    },
+    {
+        "imdb_id": "tt0075686",
+        "title": "Annie Hall",
+        "poster_path": "https://image.tmdb.org/t/p/w500/gBo4G0p8iVS998aYvXS656jbsH2.jpg",
+        "genre": [
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 11,
+                "genre_name": "Romance"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0081398",
+        "title": "Raging Bull",
+        "poster_path": "https://image.tmdb.org/t/p/w500/1WV7WlTS8LI1L5NkCgjWT9GSW3O.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0083987",
+        "title": "Gandhi",
+        "poster_path": "https://image.tmdb.org/t/p/w500/rOXftt7SluxskrFrvU7qFJa5zeN.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 14,
+                "genre_name": "Historical"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0091763",
+        "title": "Platoon",
+        "poster_path": "https://image.tmdb.org/t/p/w500/m3mmFkPQKvPZq5exmh0bDuXlD9T.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 18,
+                "genre_name": "War"
+            },
+            {
+                "genre_id": 7,
+                "genre_name": "Action"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0095953",
+        "title": "Rain Man",
+        "poster_path": "https://image.tmdb.org/t/p/w500/iTNHwO896WKkaoPtpMMS74d8VNi.jpg",
+        "genre": [
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0116282",
+        "title": "Fargo",
+        "poster_path": "https://image.tmdb.org/t/p/w500/rt7cpEr1uP6RTZykBFhBTcRaKvG.jpg",
+        "genre": [
+            {
+                "genre_id": 9,
+                "genre_name": "Crime"
+            },
+            {
+                "genre_id": 2,
+                "genre_name": "Drama"
+            },
+            {
+                "genre_id": 5,
+                "genre_name": "Thriller"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    },
+    {
+        "imdb_id": "tt0266543",
+        "title": "Finding Nemo",
+        "poster_path": "https://image.tmdb.org/t/p/w500/eHuGQ10FUzK1mdOY69wF5pGgEf5.jpg",
+        "genre": [
+            {
+                "genre_id": 1,
+                "genre_name": "Comedy"
+            },
+            {
+                "genre_id": 12,
+                "genre_name": "Family"
+            }
+        ],
+        "ranking": {
+            "ranking_value": 2,
+            "ranking_name": "Good"
+        }
+    }
+]

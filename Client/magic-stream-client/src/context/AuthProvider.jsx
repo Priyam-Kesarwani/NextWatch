@@ -5,33 +5,39 @@ const AuthContext = createContext({});
 export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState();
     const [loading, setLoading] = useState(true);
-        useEffect(() => {
-                try { 
-                    const storedUser = localStorage.getItem('user');
-
-                     if (storedUser) {
-          
-                        const parsedUser = JSON.parse(storedUser);
-                        setAuth(parsedUser);
-  
-                    }
-              } catch (error) {
-                        console.error('Failed to parse user from localStorage', error);
-                } finally{
-                    setLoading(false);
+    
+    // Load auth from localStorage on mount
+    useEffect(() => {
+        try { 
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                setAuth(parsedUser);
             }
-    },[]);
-    useEffect(()=>{
-        if (auth){
-            localStorage.setItem('user', JSON.stringify(auth));
+        } catch (error) {
+            console.error('Failed to parse user from localStorage', error);
+            // Clear corrupted data
+            localStorage.removeItem('user');
+        } finally {
+            setLoading(false);
         }
-        else{
+    }, []);
+    
+    // Persist auth to localStorage when it changes
+    useEffect(() => {
+        if (auth) {
+            try {
+                localStorage.setItem('user', JSON.stringify(auth));
+            } catch (error) {
+                console.error('Failed to save user to localStorage', error);
+            }
+        } else {
             localStorage.removeItem('user');
         }
-    },[auth])
+    }, [auth]);
 
     return (
-        <AuthContext.Provider value = {{auth,setAuth,loading}}>
+        <AuthContext.Provider value = {{auth, setAuth, loading}}>
             {children}
         </AuthContext.Provider>
     )

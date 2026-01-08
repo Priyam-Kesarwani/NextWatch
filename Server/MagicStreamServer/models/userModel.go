@@ -19,6 +19,7 @@ type User struct {
 	Token           string        `json:"token" bson:"token"`
 	RefreshToken    string        `json:"refresh_token" bson:"refresh_token"`
 	FavouriteGenres []Genre       `json:"favourite_genres" bson:"favourite_genres" validate:"required,dive"`
+	Watchlist       []string      `json:"watchlist" bson:"watchlist"` // Array of imdb_ids
 }
 type UserLogin struct {
 	Email    string `json:"email" validate:"required,email"`

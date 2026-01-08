@@ -18,10 +18,20 @@ const Register = () => {
 
     const handleGenreChange = (e) => {
         const options = Array.from(e.target.selectedOptions);
-        setFavouriteGenres(options.map(opt => ({
+        const selected = options.map(opt => ({
             genre_id: Number(opt.value),
             genre_name: opt.label
-        })));
+        }));
+        
+        // Limit to 5 genres
+        if (selected.length > 5) {
+            setError('You can select up to 5 favorite genres');
+            // Keep only first 5
+            setFavouriteGenres(selected.slice(0, 5));
+        } else {
+            setFavouriteGenres(selected);
+            setError(null);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -31,6 +41,16 @@ const Register = () => {
 
         if (password !== confirmPassword) {
             setError('Passwords do not match.');
+            return;
+        }
+
+        if (favouriteGenres.length === 0) {
+            setError('Please select at least one favorite genre.');
+            return;
+        }
+
+        if (favouriteGenres.length > 5) {
+            setError('You can select up to 5 favorite genres.');
             return;
         }
 
@@ -161,7 +181,9 @@ const Register = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Favorite Genres</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                            Favorite Genres <span className="text-gray-500">(Select up to 5)</span>
+                        </label>
                         <select
                             multiple
                             value={favouriteGenres.map(g => String(g.genre_id))}
@@ -174,9 +196,14 @@ const Register = () => {
                                 </option>
                             ))}
                         </select>
-                        <p className="text-gray-500 text-xs mt-1">
-                            Hold Ctrl (Windows) or Cmd (Mac) to select multiple genres.
-                        </p>
+                        <div className="flex items-center justify-between mt-1">
+                            <p className="text-gray-500 text-xs">
+                                Hold Ctrl (Windows) or Cmd (Mac) to select multiple genres.
+                            </p>
+                            <p className={`text-xs font-medium ${favouriteGenres.length > 5 ? 'text-red-400' : favouriteGenres.length === 5 ? 'text-yellow-400' : 'text-gray-400'}`}>
+                                {favouriteGenres.length}/5 selected
+                            </p>
+                        </div>
                     </div>
 
                     <button

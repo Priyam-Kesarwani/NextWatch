@@ -37,10 +37,19 @@ func RegisterUser(client *mongo.Client) gin.HandlerFunc {
 		}
 		validate := validator.New()
 
+		// Validate that favourite_genres has at most 5 items
+		if len(user.FavouriteGenres) > 5 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "You can select up to 5 favorite genres"})
+			return
+		}
+
 		if err := validate.Struct(user); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Validation failed", "details": err.Error()})
 			return
 		}
+
+		// Initialize watchlist as empty array
+		user.Watchlist = []string{}
 
 		hashedPassword, err := HashPassword(user.Password)
 
@@ -319,5 +328,171 @@ func RefreshTokenHandler(client *mongo.Client) gin.HandlerFunc {
 		http.SetCookie(c.Writer, refreshCookie) // expires in 1 week
 
 		c.JSON(http.StatusOK, gin.H{"message": "Tokens refreshed"})
+	}
+}
+
+func AddToWatchlist(client *mongo.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userId, err := utils.GetUserIdFromContext(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "User ID not found in context"})
+			return
+		}
+
+		var req struct {
+			ImdbID string `json:"imdb_id" binding:"required"`
+		}
+
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request. imdb_id is required"})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(c, 100*time.Second)
+		defer cancel()
+
+		var userCollection *mongo.Collection = database.OpenCollection("users", client)
+
+		// Check if movie is already in watchlist
+		var user models.User
+		err = userCollection.FindOne(ctx, bson.D{{Key: "user_id", Value: userId}}).Decode(&user)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+
+		// Check if already in watchlist
+		for _, id := range user.Watchlist {
+			if id == req.ImdbID {
+				c.JSON(http.StatusConflict, gin.H{"error": "Movie already in watchlist"})
+				return
+			}
+		}
+
+		// Add to watchlist
+		update := bson.M{
+			"$push": bson.M{
+				"watchlist": req.ImdbID,
+			},
+		}
+
+		result, err := userCollection.UpdateOne(ctx, bson.D{{Key: "user_id", Value: userId}}, update)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add movie to watchlist"})
+			return
+		}
+
+		if result.MatchedCount == 0 {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Movie added to watchlist"})
+	}
+}
+
+func RemoveFromWatchlist(client *mongo.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userId, err := utils.GetUserIdFromContext(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "User ID not found in context"})
+			return
+		}
+
+		imdbID := c.Param("imdb_id")
+		if imdbID == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "imdb_id is required"})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(c, 100*time.Second)
+		defer cancel()
+
+		var userCollection *mongo.Collection = database.OpenCollection("users", client)
+
+		// Remove from watchlist
+		update := bson.M{
+			"$pull": bson.M{
+				"watchlist": imdbID,
+			},
+		}
+
+		result, err := userCollection.UpdateOne(ctx, bson.D{{Key: "user_id", Value: userId}}, update)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to remove movie from watchlist"})
+			return
+		}
+
+		if result.MatchedCount == 0 {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Movie removed from watchlist"})
+	}
+}
+
+func GetWatchlist(client *mongo.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userId, err := utils.GetUserIdFromContext(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "User ID not found in context"})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(c, 100*time.Second)
+		defer cancel()
+
+		var userCollection *mongo.Collection = database.OpenCollection("users", client)
+
+		var user models.User
+		err = userCollection.FindOne(ctx, bson.D{{Key: "user_id", Value: userId}}).Decode(&user)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+
+		// If watchlist is empty, return empty array
+		if len(user.Watchlist) == 0 {
+			c.JSON(http.StatusOK, []models.Movie{})
+			return
+		}
+
+		// Fetch movies from watchlist
+		var movieCollection *mongo.Collection = database.OpenCollection("movies", client)
+
+		filter := bson.D{
+			{Key: "imdb_id", Value: bson.D{
+				{Key: "$in", Value: user.Watchlist},
+			}},
+		}
+
+		cursor, err := movieCollection.Find(ctx, filter)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch watchlist movies"})
+			return
+		}
+		defer cursor.Close(ctx)
+
+		var movies []models.Movie
+		if err := cursor.All(ctx, &movies); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to decode movies"})
+			return
+		}
+
+		// Sort movies to match watchlist order
+		movieMap := make(map[string]models.Movie)
+		for _, movie := range movies {
+			movieMap[movie.ImdbID] = movie
+		}
+
+		var sortedMovies []models.Movie
+		for _, imdbID := range user.Watchlist {
+			if movie, exists := movieMap[imdbID]; exists {
+				sortedMovies = append(sortedMovies, movie)
+			}
+		}
+
+		c.JSON(http.StatusOK, sortedMovies)
 	}
 }

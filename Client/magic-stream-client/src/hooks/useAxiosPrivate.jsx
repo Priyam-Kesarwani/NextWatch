@@ -66,23 +66,36 @@ const useAxiosPrivate = () =>{
                     return new Promise((resolve, reject) => {
                         axiosAuth
                         .post('/refresh')
-                        .then(() => {
+                        .then((refreshResponse) => {
                             processQueue(null);
+                            // Retry the original request
                             axiosAuth(originalRequest)
                                 .then(resolve)
-                                .catch(reject);
+                                .catch(retryError => {
+                                    // If retry still fails with 401, then log out
+                                    if (retryError.response?.status === 401) {
+                                        console.error('❌ Retry after refresh failed - logging out');
+                                        localStorage.removeItem('user');
+                                        setAuth(null);
+                                    }
+                                    reject(retryError);
+                                });
                         })
                         .catch(refreshError => {
                             processQueue(refreshError, null);
                             
-                            // Only log out if refresh fails with 401 (invalid token)
-                            // Don't log out on network errors
+                            // Only log out if refresh fails with 401 (invalid/expired refresh token)
+                            // Don't log out on network errors or other errors
                             if (refreshError.response?.status === 401) {
-                                console.error('❌ Refresh failed - logging out');
+                                console.error('❌ Refresh token invalid/expired - logging out');
                                 localStorage.removeItem('user');
                                 setAuth(null);
+                            } else if (refreshError.code === 'ERR_NETWORK' || !refreshError.response) {
+                                // Network error - don't log out, just reject
+                                console.error('⚠ Network error during refresh:', refreshError);
                             } else {
-                                console.error('⚠ Refresh failed (non-auth error):', refreshError);
+                                // Other errors (500, etc.) - don't log out
+                                console.error('⚠ Refresh failed (server error):', refreshError);
                             }
                             reject(refreshError);
                         })

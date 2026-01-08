@@ -13,7 +13,7 @@ const Header = ({ handleLogout }) => {
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
-        <nav className="sticky top-0 z-50 bg-darker/90 backdrop-blur-md border-b border-white/10 shadow-lg">
+        <nav className="sticky top-0 z-50 bg-darker/90 backdrop-blur-md border-b border-white/10 shadow-lg glow-primary">
             <div className="container mx-auto px-4 py-3">
                 <div className="flex items-center justify-between">
                     {/* Brand */}
@@ -23,7 +23,7 @@ const Header = ({ handleLogout }) => {
                             src={logo}
                             className="w-8 h-8 transition-transform group-hover:scale-110"
                         />
-                        <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        <span className="text-xl font-bold text-gradient transition-all duration-300 group-hover:scale-105">
                             NextWatch
                         </span>
                     </Link>
@@ -42,8 +42,8 @@ const Header = ({ handleLogout }) => {
                             <NavLink
                                 to="/"
                                 className={({ isActive }) =>
-                                    `text-sm font-medium transition-colors hover:text-primary ${
-                                        isActive ? 'text-primary' : 'text-gray-300'
+                                    `text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
+                                        isActive ? 'text-primary glow-primary' : 'text-gray-300'
                                     }`
                                 }
                             >
@@ -59,6 +59,18 @@ const Header = ({ handleLogout }) => {
                             >
                                 Recommended
                             </NavLink>
+                            {auth && (
+                                <NavLink
+                                    to="/watchlist"
+                                    className={({ isActive }) =>
+                                        `text-sm font-medium transition-colors hover:text-primary ${
+                                            isActive ? 'text-primary' : 'text-gray-300'
+                                        }`
+                                    }
+                                >
+                                    Watchlist
+                                </NavLink>
+                            )}
                         </div>
 
                         <div className="flex items-center gap-4">
@@ -69,7 +81,7 @@ const Header = ({ handleLogout }) => {
                                     </span>
                                     <button
                                         onClick={handleLogout}
-                                        className="px-4 py-1.5 text-sm font-medium text-white border border-white/20 rounded-full hover:bg-white/10 transition-all"
+                                        className="px-4 py-1.5 text-sm font-medium text-white border border-white/20 rounded-full hover:bg-white/10 transition-all duration-300 btn-glow input-glow hover:scale-105"
                                     >
                                         Logout
                                     </button>
@@ -78,13 +90,13 @@ const Header = ({ handleLogout }) => {
                                 <>
                                     <button
                                         onClick={() => navigate("/login")}
-                                        className="px-4 py-1.5 text-sm font-medium text-primary hover:text-white transition-colors"
+                                        className="px-4 py-1.5 text-sm font-medium text-primary hover:text-white transition-all duration-300 btn-glow hover:scale-105"
                                     >
                                         Login
                                     </button>
                                     <button
                                         onClick={() => navigate("/register")}
-                                        className="px-4 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-primary to-secondary rounded-full hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all transform hover:-translate-y-0.5"
+                                        className="px-4 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-primary to-secondary rounded-full hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all duration-300 transform hover:-translate-y-0.5 btn-glow glow-primary hover:scale-105"
                                     >
                                         Register
                                     </button>
@@ -120,6 +132,19 @@ const Header = ({ handleLogout }) => {
                             >
                                 Recommended
                             </NavLink>
+                            {auth && (
+                                <NavLink
+                                    to="/watchlist"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={({ isActive }) =>
+                                        `block text-base font-medium ${
+                                            isActive ? 'text-primary' : 'text-gray-300'
+                                        }`
+                                    }
+                                >
+                                    Watchlist
+                                </NavLink>
+                            )}
                             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
                                 {auth ? (
                                     <>
