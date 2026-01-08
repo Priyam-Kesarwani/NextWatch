@@ -72,11 +72,8 @@ NextWatch/
 
 ## 📸 Screenshots
 
-<img width="1920" height="1080" alt="Screenshot 2026-01-08 210412" src="https://github.com/user-attachments/assets/93185bd0-4a01-4408-9456-ab6013053be0" />
+<img width="1920" height="1080" alt="Screenshot 2026-01-08 210412" src="https://github.com/user-attachments/assets/b2caeffd-076e-4efb-b009-c9b442b30ec5" />
 
-<img width="1920" height="1080" alt="Screenshot 2026-01-08 210502" src="https://github.com/user-attachments/assets/4d023a9b-5767-4155-99a6-72e74b835b45" />
-
-<img width="1920" height="1080" alt="Screenshot 2026-01-08 210559" src="https://github.com/user-attachments/assets/d2a50e94-ff28-44bb-aae4-e882633a7703" />
 
 <img width="1920" height="1080" alt="Screenshot 2026-01-08 211225" src="https://github.com/user-attachments/assets/c99e20d3-6d06-4b33-9840-46196cdeeab3" />
 
