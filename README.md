@@ -6,7 +6,7 @@ NextWatch is a modern movie recommendation web application designed to help user
 
 ## 🚀 Features
 
-- 🎯 **Top 50 Movie Recommendations** across all genres (up to 5 categories per movie)
+- 🎯 **Top 50 Movie Recommendations** across all genres (up to 5 categories)
 - 🎞️ **500+ Movies** available in the catalog
 - 🗂️ **20 Movie Categories**
 - 🔍 **Search** movies by title
@@ -115,7 +115,7 @@ Improved recommendation algorithm
 
 ---
 
-##👤 Author
+## 👤 Author
 
 Priyam Kesarwani
 GitHub: https://github.com/Priyam-Kesarwani
