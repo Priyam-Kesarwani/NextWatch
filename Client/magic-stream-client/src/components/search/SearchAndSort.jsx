@@ -39,32 +39,42 @@ const SearchAndSort = ({
     ];
 
     return (
-        <div className="container mx-auto px-4 py-6 space-y-4">
-            {/* Search Bar */}
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
-                </div>
-                <input
-                    type="text"
-                    placeholder="Search movies by title..."
-                    value={searchQuery}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-card/50 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 input-glow glow-card"
-                />
-            </div>
-
-            {/* Sort and Filter Controls */}
-            <div className="flex flex-col sm:flex-row gap-4">
-                {/* Sort Dropdown */}
-                <div className="relative flex-1">
+        <div className="container mx-auto px-4 py-6 space-y-3">
+            {/* Single Line Controls Bar */}
+            <div className="flex flex-col md:flex-row items-center gap-3">
+                {/* Search Bar - takes flexible available width */}
+                <div className="relative flex-1 w-full">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                        <FontAwesomeIcon icon={faSort} className="text-gray-400" />
+                        <FontAwesomeIcon icon={faSearch} className="text-gray-400 text-sm" />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search movies by title..."
+                        value={searchQuery}
+                        onChange={(e) => onSearchChange(e.target.value)}
+                        className="w-full pl-11 pr-10 py-3 bg-card/50 border border-white/10 rounded-xl text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 input-glow glow-card"
+                    />
+                    {searchQuery && (
+                        <button
+                            type="button"
+                            onClick={() => onSearchChange('')}
+                            aria-label="Clear search"
+                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 hover:text-white transition-colors cursor-pointer"
+                        >
+                            ✕
+                        </button>
+                    )}
+                </div>
+
+                {/* Sort Dropdown */}
+                <div className="relative w-full md:w-56 shrink-0">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                        <FontAwesomeIcon icon={faSort} className="text-gray-400 text-xs" />
                     </div>
                     <select
                         value={sortBy}
                         onChange={(e) => onSortChange(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-card/50 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer transition-all duration-300 input-glow glow-card"
+                        className="w-full pl-10 pr-9 py-3 bg-card/50 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer transition-all duration-300 input-glow glow-card"
                     >
                         {sortOptions.map((option) => (
                             <option key={option.value} value={option.value} className="bg-card text-white">
@@ -72,27 +82,31 @@ const SearchAndSort = ({
                             </option>
                         ))}
                     </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-gray-400 text-[10px]">
+                        ▼
+                    </div>
                 </div>
 
                 {/* Genre Filter */}
                 {genres.length > 0 && (
-                    <div className="relative" ref={genreFilterRef}>
+                    <div className="relative w-full md:w-auto shrink-0" ref={genreFilterRef}>
                         <button
+                            type="button"
                             onClick={() => setIsGenreFilterOpen(!isGenreFilterOpen)}
-                            className="w-full sm:w-auto px-6 py-3 bg-card/50 border border-white/10 rounded-xl text-white hover:bg-card/70 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 flex items-center justify-center gap-2 btn-glow input-glow glow-card"
+                            className="w-full md:w-auto px-5 py-3 bg-card/50 border border-white/10 rounded-xl text-white text-sm hover:bg-card/70 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 flex items-center justify-center gap-2.5 btn-glow input-glow glow-card whitespace-nowrap cursor-pointer"
                         >
-                            <FontAwesomeIcon icon={faFilter} className="text-gray-400" />
+                            <FontAwesomeIcon icon={faFilter} className="text-gray-400 text-xs" />
                             <span>Filter by Genre</span>
                             {selectedGenres.length > 0 && (
-                                <span className="bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                                <span className="bg-primary text-darker font-bold text-xs px-2 py-0.5 rounded-full">
                                     {selectedGenres.length}
                                 </span>
                             )}
                         </button>
 
-                        {/* Genre Filter Dropdown */}
+                        {/* Genre Filter Dropdown (aligned to right on desktop) */}
                         {isGenreFilterOpen && (
-                            <div className="absolute z-50 mt-2 w-full sm:w-64 bg-card border border-white/10 rounded-xl shadow-2xl p-4 max-h-64 overflow-y-auto glow-card">
+                            <div className="absolute right-0 z-50 mt-2 w-full sm:w-64 bg-card border border-white/10 rounded-xl shadow-2xl p-4 max-h-64 overflow-y-auto glow-card">
                                 <div className="space-y-2">
                                     {genres.map((genre) => (
                                         <label
@@ -116,11 +130,12 @@ const SearchAndSort = ({
                                     ))}
                                     {selectedGenres.length > 0 && (
                                         <button
+                                            type="button"
                                             onClick={() => {
                                                 onGenreFilterChange([]);
                                                 setIsGenreFilterOpen(false);
                                             }}
-                                            className="w-full mt-2 px-3 py-1.5 text-xs text-primary hover:text-white border border-primary/30 hover:bg-primary/20 rounded-lg transition-colors"
+                                            className="w-full mt-2 px-3 py-1.5 text-xs text-primary hover:text-white border border-primary/30 hover:bg-primary/20 rounded-lg transition-colors cursor-pointer"
                                         >
                                             Clear Filters
                                         </button>
@@ -134,14 +149,15 @@ const SearchAndSort = ({
 
             {/* Active Filters Display */}
             {(searchQuery || selectedGenres.length > 0) && (
-                <div className="flex flex-wrap items-center gap-2 text-sm">
-                    <span className="text-gray-400">Active filters:</span>
+                <div className="flex flex-wrap items-center gap-2 pt-1 text-sm">
+                    <span className="text-gray-400 text-xs">Active filters:</span>
                     {searchQuery && (
-                        <span className="px-3 py-1 bg-primary/20 border border-primary/30 text-primary rounded-full flex items-center gap-2">
+                        <span className="px-3 py-1 bg-primary/20 border border-primary/30 text-primary text-xs rounded-full flex items-center gap-2">
                             Search: "{searchQuery}"
                             <button
+                                type="button"
                                 onClick={() => onSearchChange('')}
-                                className="hover:text-white transition-colors"
+                                className="hover:text-white transition-colors cursor-pointer"
                             >
                                 ×
                             </button>
@@ -152,12 +168,13 @@ const SearchAndSort = ({
                         return genre ? (
                             <span
                                 key={genreId}
-                                className="px-3 py-1 bg-primary/20 border border-primary/30 text-primary rounded-full flex items-center gap-2"
+                                className="px-3 py-1 bg-primary/20 border border-primary/30 text-primary text-xs rounded-full flex items-center gap-2"
                             >
                                 {genre.genre_name}
                                 <button
+                                    type="button"
                                     onClick={() => onGenreFilterChange(selectedGenres.filter(id => id !== genreId))}
-                                    className="hover:text-white transition-colors"
+                                    className="hover:text-white transition-colors cursor-pointer"
                                 >
                                     ×
                                 </button>

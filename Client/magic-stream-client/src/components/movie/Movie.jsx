@@ -58,10 +58,15 @@ const WatchlistButton = ({ movie }) => {
 };
 
 const Movie = ({ movie, updateMovieReview }) => {
+    const streamPath = movie.youtube_id && String(movie.youtube_id).trim() !== ''
+        ? `/stream/${movie.youtube_id.trim()}`
+        : '/stream';
+
     return (
         <div key={movie._id} className="h-full">
             <Link
-                to={`/stream/${movie.youtube_id}`}
+                to={streamPath}
+                state={{ movie }}
                 className="block h-full text-decoration-none"
             >
                 <div className="group relative h-full bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-2">
@@ -73,6 +78,8 @@ const Movie = ({ movie, updateMovieReview }) => {
                         <img 
                             src={movie.poster_path || '/default.png'} 
                             alt={movie.title} 
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => { e.target.onerror = null; e.target.src = '/default.png'; }}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
@@ -103,25 +110,42 @@ const Movie = ({ movie, updateMovieReview }) => {
                             </div>
                         )}
 
-                        {/* Rating */}
-                        {movie?.ranking && (
-                            <div className="flex items-center gap-3 mt-2">
-                                <div className="inline-flex items-center gap-1">
-                                    {Array.from({ length: 5 }).map((_, i) => (
-                                        <FontAwesomeIcon
-                                            key={i}
-                                            icon={faStar}
-                                            className={`text-sm ${i < Math.round(movie.ranking.ranking_value) ? 'text-yellow-400' : 'text-gray-600'} mr-0`} />
-                                    ))}
-                                    <span className="text-sm font-semibold text-white bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded ml-2">
-                                        {movie.ranking.ranking_value}/5
-                                    </span>
+                        {/* Rating: 1 (Excellent) -> 5/5 stars, 5 (Terrible) -> 1/5 star */}
+                        {(() => {
+                            const rawRank = movie?.ranking?.ranking_value;
+                            // Rank 1 (Excellent) = 5/5, Rank 2 (Good) = 4/5, Rank 3 (Okay) = 3/5, Rank 4 (Bad) = 2/5, Rank 5 (Terrible) = 1/5
+                            const score = (typeof rawRank === 'number' && rawRank >= 1 && rawRank <= 5)
+                                ? (6 - rawRank)
+                                : null;
+
+                            if (score === null && (!movie?.ranking?.ranking_name || movie.ranking.ranking_name === 'Not_Ranked')) {
+                                return null;
+                            }
+
+                            return (
+                                <div className="flex items-center gap-3 mt-2">
+                                    {score !== null && (
+                                        <div className="inline-flex items-center gap-1">
+                                            {Array.from({ length: 5 }).map((_, i) => (
+                                                <FontAwesomeIcon
+                                                    key={i}
+                                                    icon={faStar}
+                                                    className={`text-sm ${i < score ? 'text-yellow-400' : 'text-gray-600'} mr-0`}
+                                                />
+                                            ))}
+                                            <span className="text-sm font-semibold text-white bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded ml-2">
+                                                {score}/5
+                                            </span>
+                                        </div>
+                                    )}
+                                    {movie.ranking?.ranking_name && movie.ranking.ranking_name !== 'Not_Ranked' && (
+                                        <span className="text-sm text-gray-300 truncate">
+                                            {String(movie.ranking.ranking_name).replace(/_/g, ' ').trim()}
+                                        </span>
+                                    )}
                                 </div>
-                                {movie.ranking.ranking_name && (
-                                    <span className="text-sm text-gray-300 truncate">{String(movie.ranking.ranking_name).trim()}</span>
-                                )}
-                            </div>
-                        )}
+                            );
+                        })()}
 
                         {/* Watchlist & Review Buttons */}
                         <div className="mt-2 flex flex-col gap-2">

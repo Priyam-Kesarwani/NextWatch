@@ -51,6 +51,7 @@ function App() {
             <Route path="/recommended" element={<Recommended/>}></Route>
             <Route path="/watchlist" element={<Watchlist/>}></Route>
             <Route path="/review/:imdb_id" element={<Review/>}></Route>
+            <Route path="/stream" element={<StreamMovie/>}></Route>
             <Route path="/stream/:yt_id" element={<StreamMovie/>}></Route>
         </Route>
       </Routes>

@@ -4,16 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import Movies from '../movies/Movies';
 import Spinner from '../spinner/Spinner';
 import SearchAndSort from '../search/SearchAndSort';
+import Pagination from '../pagination/Pagination';
 import axiosClient from '../../api/axiosConfig';
 
 const Watchlist = () => {
     const [allMovies, setAllMovies] = useState([]);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState();
+    const [message, setMessage] = useState('');
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     
+    // Pagination state
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+
     // Search and filter state
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState('title-asc');
@@ -35,7 +40,7 @@ const Watchlist = () => {
         
         const fetchWatchlist = async () => {
             setLoading(true);
-            setMessage("");
+            setMessage('');
 
             try {
                 const response = await axiosPrivate.get('/watchlist');
@@ -53,7 +58,7 @@ const Watchlist = () => {
                     }
                 }
             } catch (error) {
-                console.error("Error fetching watchlist:", error);
+                console.error('Error fetching watchlist:', error);
                 if (isMounted) {
                     if (error.response?.status === 401) {
                         setMessage('Authentication failed. Please try logging in again.');
@@ -74,8 +79,7 @@ const Watchlist = () => {
         return () => {
             isMounted = false;
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [axiosPrivate]);
 
     // Fetch genres
     useEffect(() => {
@@ -119,10 +123,8 @@ const Watchlist = () => {
                 case 'title-desc':
                     return (b.title || '').localeCompare(a.title || '');
                 case 'rating-asc':
-                    // High to Low (1=Excellent first, then 2, 3, 4, 5=Terrible)
                     return (a.ranking?.ranking_value || 999) - (b.ranking?.ranking_value || 0);
                 case 'rating-desc':
-                    // Low to High (5=Terrible first, then 4, 3, 2, 1=Excellent)
                     return (b.ranking?.ranking_value || 0) - (a.ranking?.ranking_value || 999);
                 default:
                     return 0;
@@ -131,6 +133,18 @@ const Watchlist = () => {
 
         return filtered;
     }, [allMovies, searchQuery, sortBy, selectedGenres]);
+
+    // Reset page to 1 when filters change
+    useEffect(() => {
+        setPage(1);
+    }, [searchQuery, selectedGenres, sortBy, pageSize]);
+
+    // Pagination calculations
+    const totalPages = Math.max(1, Math.ceil(filteredAndSortedMovies.length / pageSize));
+    const paginatedMovies = useMemo(() => {
+        const start = (page - 1) * pageSize;
+        return filteredAndSortedMovies.slice(start, start + pageSize);
+    }, [filteredAndSortedMovies, page, pageSize]);
 
     // Update message based on filtered results
     useEffect(() => {
@@ -147,10 +161,23 @@ const Watchlist = () => {
         }
     }, [filteredAndSortedMovies.length, searchQuery, selectedGenres.length, allMovies.length, loading]);
 
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handlePageSizeChange = (newSize) => {
+        setPageSize(newSize);
+        setPage(1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
-        <>
+        <div className="min-h-screen pb-12">
             {loading ? (
-                <Spinner/>
+                <div className="py-20">
+                    <Spinner />
+                </div>
             ) : (
                 <>
                     <div className="container mx-auto px-4 pt-8 pb-4">
@@ -161,6 +188,7 @@ const Watchlist = () => {
                             {allMovies.length} {allMovies.length === 1 ? 'movie' : 'movies'} saved
                         </p>
                     </div>
+
                     <SearchAndSort
                         searchQuery={searchQuery}
                         onSearchChange={setSearchQuery}
@@ -170,15 +198,29 @@ const Watchlist = () => {
                         selectedGenres={selectedGenres}
                         onGenreFilterChange={setSelectedGenres}
                     />
+
                     <Movies 
-                        movies={filteredAndSortedMovies}
+                        movies={paginatedMovies}
                         updateMovieReview={updateMovieReview}
                         onMovieRemoved={handleMovieRemoved}
                         message={message}
                     />
+
+                    {filteredAndSortedMovies.length > 0 && (
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                            totalItems={filteredAndSortedMovies.length}
+                            pageSize={pageSize}
+                            onPageChange={handlePageChange}
+                            onPageSizeChange={handlePageSizeChange}
+                            pageSizeOptions={[12, 24, 48]}
+                            isLoading={loading}
+                        />
+                    )}
                 </>
             )}
-        </>
+        </div>
     );
 };
 

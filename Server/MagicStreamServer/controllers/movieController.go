@@ -142,6 +142,34 @@ func GetMovies(client *mongo.Client) gin.HandlerFunc {
 			movies = []models.Movie{}
 		}
 
+		// Count total matching documents for pagination
+		totalCount, countErr := movieCollection.CountDocuments(ctx, filter)
+		if countErr != nil {
+			log.Println("Error counting movies:", countErr)
+			totalCount = int64(len(movies))
+		}
+
+		totalPages := int((totalCount + int64(limit) - 1) / int64(limit))
+		if totalPages < 1 {
+			totalPages = 1
+		}
+
+		c.Header("X-Total-Count", strconv.FormatInt(totalCount, 10))
+		c.Header("X-Total-Pages", strconv.Itoa(totalPages))
+		c.Header("X-Current-Page", strconv.Itoa(page))
+		c.Header("X-Page-Size", strconv.Itoa(limit))
+
+		if c.Query("paginate") == "true" || c.GetHeader("Accept-Pagination") == "true" {
+			c.JSON(http.StatusOK, gin.H{
+				"movies":     movies,
+				"total":      totalCount,
+				"totalPages": totalPages,
+				"page":       page,
+				"limit":      limit,
+			})
+			return
+		}
+
 		c.JSON(http.StatusOK, movies)
 
 	}
